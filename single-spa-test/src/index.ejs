@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Root Config</title>
+  <!--
+    Remove this if you only support browsers that support async/await.
+    This is needed by babel to share largeish helper code for compiling async/await in older
+    browsers. More information at https://github.com/single-spa/create-single-spa/issues/112
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js"></script>
+  <!--
+    This CSP allows any SSL-enabled host, but you should limit these directives further to increase your app's security.
+    Learn more about CSP policies at https://content-security-policy.com/#directive
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: localhost:*; script-src 'unsafe-inline' 'unsafe-eval' http: localhost:*; connect-src ws: http: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';">
+  <meta name="importmap-type" content="systemjs-importmap">
+
+  <!-- Shared dependencies go into this import map. Your shared dependencies must be of one of the following formats:
+
+    1. System.register (preferred when possible) - https://github.com/systemjs/systemjs/blob/master/docs/system-register.md
+    2. UMD - https://github.com/umdjs/umd
+    3. Global variable
+
+    More information about shared dependencies can be found at https://single-spa.js.org/docs/recommended-setup#sharing-with-import-maps.
+  -->
+  <script type="systemjs-importmap">
+    {
+      "imports": {
+        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.5.0/lib/system/single-spa.min.js",
+        "single-spa-vue": "https://cdn.jsdelivr.net/npm/single-spa-vue@1.8.2/lib/single-spa-vue.min.js",
+        "vue": "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js",
+        "@mdi/font": "//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css"
+      }
+    }
+  </script>
+
+  <!-- Add your organization's prod import map URL to this script's src  -->
+  <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
+
+  <script type="systemjs-importmap" src="/importmap.json"></script>
+
+  <!--
+    If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
+    Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
+  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/zone.js@0.10.3/dist/zone.min.js"></script> -->
+
+  <% if (isLocal) { %>
+    <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@1.14.6/dist/import-map-overrides.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/system.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/extras/amd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/extras/named-exports.js"></script>
+  <% } else { %>
+    <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@1.14.6/dist/import-map-overrides.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/extras/amd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.3.1/dist/extras/named-exports.min.js"></script>
+  <% } %>
+
+  <style>
+    .app-main-content {
+      margin-left: 300px;
+      margin-right: 0;
+      padding-top: 30px;
+      margin-top: 60px;
+      width: 100%;
+      display: flex;
+      pointer-events: all;
+    }
+    .w-100 {
+      width: 100%;
+    }
+    .v-application--wrap {
+      min-height: auto !important;
+    }
+  </style>
+
+  <template id="single-spa-layout">
+    <single-spa-router>
+      <!-- TEST 2 -->
+      <div id="navbar">
+        <application name="testApp2"></application>
+      </div>
+      <div style="display: flex">
+        <main class="main-content app-main-content">
+
+          <div id="app-test-1" class="w-100">
+            <!-- TEST 1 -->
+            <route path="/">
+              <application name="testApp1"></application>
+            </route>
+          </div>
+        </main>
+      </div>
+    </single-spa-router>
+  </template>
+</head>
+<body>
+  <script>
+    System.import('@/rootConfig');
+  </script>
+  <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
+</body>
+</html>

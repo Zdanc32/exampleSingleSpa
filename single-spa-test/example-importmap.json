@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "@/rootConfig": "//localhost:9000/-root-config.js",
+    "appTest1": "//localhost:8081/js/app.js",
+    "appTest2": "//localhost:8082/js/app.js"
+  }
+}
